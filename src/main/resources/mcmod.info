@@ -1,0 +1,15 @@
+[
+{
+  "modid": "mastertech",
+  "name": "MasterTech: Hollow Beginning",
+  "description": "Simple mod for MT Modpack",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["HollowHorizon", "AlgorithmLX"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
