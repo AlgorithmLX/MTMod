@@ -12,7 +12,5 @@ public class ItemBase extends Item implements IModeled {
     }
 
     @Override
-    public void registerModels() {
-
-    }
+    public void registerModels() {}
 }
