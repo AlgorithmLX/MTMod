@@ -4,19 +4,50 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import ru.hollowhorizon.mastertech.MasterTech;
+import ru.hollowhorizon.mastertech.api.IModeled;
+import ru.hollowhorizon.mastertech.api.RegistryHelper;
 import ru.hollowhorizon.mastertech.util.SpawnHelper;
 
 @Mod.EventBusSubscriber(modid = MasterTech.MODID)
 public class HollowEventHandler {
+    @SubscribeEvent
+    public static void itemReg(RegistryEvent.Register<Item> reg) {
+        Item[] ia = RegistryHelper.ITEMS.toArray(new Item[0]);
+        reg.getRegistry().registerAll(ia);
+    }
+
+    @SubscribeEvent
+    public static void blockReg(RegistryEvent.Register<Block> reg) {
+        Block[] ba = RegistryHelper.BLOCKS.toArray(new Block[0]);
+        reg.getRegistry().registerAll(ba);
+    }
+
+    @SubscribeEvent
+    public static void modelRegister(ModelRegistryEvent _e) {
+        for (Item item : RegistryHelper.ITEMS) {
+            if (item instanceof IModeled) {
+                ((IModeled) item).registerModels();
+            }
+        }
+
+        for (Block block : RegistryHelper.BLOCKS) {
+            if (block instanceof IModeled) {
+                ((IModeled) block).registerModels();
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onPlayerJoining(PlayerEvent.PlayerLoggedInEvent event) {

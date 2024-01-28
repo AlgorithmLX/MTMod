@@ -1,11 +1,13 @@
 package ru.hollowhorizon.mastertech.api.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import ru.hollowhorizon.mastertech.MasterTech;
 import ru.hollowhorizon.mastertech.api.IModeled;
 
-public class ItemBase extends Item implements IModeled {
-    public ItemBase(String id) {
+public class BlockItemBase extends ItemBlock implements IModeled {
+    public BlockItemBase(String id, Block p_i45328_1_) {
+        super(p_i45328_1_);
         setRegistryName(id);
         setCreativeTab(MasterTech.tab);
         setUnlocalizedName(String.format("%s.%s", MasterTech.MODID, id));
