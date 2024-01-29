@@ -1,22 +1,20 @@
 package ru.hollowhorizon.mastertech.registry;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import ru.hollowhorizon.mastertech.MasterTech;
+import ru.hollowhorizon.mastertech.api.RegistryHelper;
 import ru.hollowhorizon.mastertech.api.item.ItemBase;
 import ru.hollowhorizon.mastertech.item.IchorBag;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
-import static ru.hollowhorizon.mastertech.api.RegistryHelper.registerItem;
-
 public class MTRegistry {
-    public static final List<Item> ITEMS = new ArrayList<>();
-    public static final List<Block> BLOCKS = new ArrayList<>();
+    private static final RegistryHelper register = RegistryHelper.makeRegistry(MasterTech.MODID);;
 
-    public static final Supplier<Item> ICHOR = registerItem("ihor", ItemBase::new);
-    public static final Supplier<Item> ICHOR_BAG = registerItem("ihor_bag", IchorBag::new);
-    public static final Supplier<Item> MITHRITE = registerItem("mithrite", ItemBase::new);
-    public static final Supplier<Item> MITHRITE_ITEM = registerItem("mithrite_ingot", ItemBase::new);
+    public static final Supplier<Item> ICHOR = register.registerItem("ihor", ItemBase::new);
+    public static final Supplier<Item> ICHOR_BAG = register.registerItem("ihor_bag", IchorBag::new);
+    public static final Supplier<Item> MITHRITE = register.registerItem("mithrite", ItemBase::new);
+    public static final Supplier<Item> MITHRITE_ITEM = register.registerItem("mithrite_ingot", ItemBase::new);
+
+    public static void init() {}
 }

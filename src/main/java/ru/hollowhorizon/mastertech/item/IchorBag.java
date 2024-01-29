@@ -12,8 +12,7 @@ import ru.hollowhorizon.mastertech.registry.MTRegistry;
 import javax.annotation.Nonnull;
 
 public class IchorBag extends ItemBase {
-    public IchorBag(String id) {
-        super(id);
+    public IchorBag() {
         setMaxStackSize(1);
     }
 
