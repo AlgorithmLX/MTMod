@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import ru.hollowhorizon.mastertech.api.item.ItemBase;
-import ru.hollowhorizon.mastertech.registry.MTRegistry;
+import ru.hollowhorizon.mastertech.registry.MTItemRegistry;
 
 import javax.annotation.Nonnull;
 
@@ -21,7 +21,7 @@ public class IchorBag extends ItemBase {
         ItemStack held = playerIn.getHeldItem(handIn);
 
         if (held.getItem() == this && !worldIn.isRemote) {
-            EntityItem ichorEnt = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(MTRegistry.ICHOR.get(), 8));
+            EntityItem ichorEnt = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(MTItemRegistry.ICHOR, 8));
             ichorEnt.setNoPickupDelay();
             worldIn.spawnEntity(ichorEnt);
             held.shrink(1);

@@ -16,38 +16,41 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import ru.hollowhorizon.mastertech.MasterTech;
 import ru.hollowhorizon.mastertech.api.model.IModeled;
-import ru.hollowhorizon.mastertech.api.RegistryHelper;
+import ru.hollowhorizon.mastertech.registry.MTItemRegistry;
 import ru.hollowhorizon.mastertech.util.SpawnHelper;
 
 @Mod.EventBusSubscriber(modid = MasterTech.MODID)
 public class HollowEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void itemReg(RegistryEvent.Register<Item> reg) {
-        Item[] ia = RegistryHelper.ITEMS.toArray(new Item[0]);
-        reg.getRegistry().registerAll(ia);
+    public static void itemReg(final RegistryEvent.Register<Item> reg) {
+        final IForgeRegistry<Item> fr = reg.getRegistry();
+        for (Item item : MTItemRegistry.ITEMS) {
+            fr.register(item);
+        }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void blockReg(RegistryEvent.Register<Block> reg) {
-        Block[] ba = RegistryHelper.BLOCKS.toArray(new Block[0]);
-        reg.getRegistry().registerAll(ba);
-    }
+//    @SubscribeEvent(priority = EventPriority.HIGHEST)
+//    public static void blockReg(RegistryEvent.Register<Block> reg) {
+//        Block[] ba = RegistryHelper.BLOCKS.toArray(new Block[0]);
+//        reg.getRegistry().registerAll(ba);
+//    }
 
     @SubscribeEvent
     public static void modelRegister(ModelRegistryEvent _e) {
-        for (Item item : RegistryHelper.ITEMS) {
+        for (Item item : MTItemRegistry.ITEMS) {
             if (item instanceof IModeled) {
                 ((IModeled) item).registerModels();
             }
         }
 
-        for (Block block : RegistryHelper.BLOCKS) {
-            if (block instanceof IModeled) {
-                ((IModeled) block).registerModels();
-            }
-        }
+//        for (Block block : RegistryHelper.BLOCKS) {
+//            if (block instanceof IModeled) {
+//                ((IModeled) block).registerModels();
+//            }
+//        }
     }
 
     @SubscribeEvent

@@ -13,4 +13,6 @@ public interface IProxy {
     void postInit(FMLPostInitializationEvent e);
 
     void getRender(Item item, int meta, String id);
+
+    default void getDefaultItemRenderer(Item item) {}
 }
