@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,7 +21,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import ru.hollowhorizon.mastertech.MasterTech;
 import ru.hollowhorizon.mastertech.api.model.IModeled;
-import ru.hollowhorizon.mastertech.registry.MTItemRegistry;
+import ru.hollowhorizon.mastertech.registry.MTRegistry;
 import ru.hollowhorizon.mastertech.util.SpawnHelper;
 
 @Mod.EventBusSubscriber(modid = MasterTech.MODID)
@@ -27,30 +29,34 @@ public class HollowEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void itemReg(final RegistryEvent.Register<Item> reg) {
         final IForgeRegistry<Item> fr = reg.getRegistry();
-        for (Item item : MTItemRegistry.ITEMS) {
+
+        for (Item item : MTRegistry.ITEMS) {
             fr.register(item);
         }
     }
 
-//    @SubscribeEvent(priority = EventPriority.HIGHEST)
-//    public static void blockReg(RegistryEvent.Register<Block> reg) {
-//        Block[] ba = RegistryHelper.BLOCKS.toArray(new Block[0]);
-//        reg.getRegistry().registerAll(ba);
-//    }
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void blockReg(RegistryEvent.Register<Block> reg) {
+        final IForgeRegistry<Block> fr = reg.getRegistry();
+
+        for (Block block : MTRegistry.BLOCKS.keySet()) {
+            fr.register(block);
+        }
+    }
 
     @SubscribeEvent
     public static void modelRegister(ModelRegistryEvent _e) {
-        for (Item item : MTItemRegistry.ITEMS) {
+        for (Item item : MTRegistry.ITEMS) {
             if (item instanceof IModeled) {
                 ((IModeled) item).registerModels();
             }
         }
 
-//        for (Block block : RegistryHelper.BLOCKS) {
-//            if (block instanceof IModeled) {
-//                ((IModeled) block).registerModels();
-//            }
-//        }
+        for (Block block : MTRegistry.BLOCKS.keySet()) {
+            if (block instanceof IModeled) {
+                ((IModeled) block).registerModels();
+            }
+        }
     }
 
     @SubscribeEvent
@@ -66,13 +72,22 @@ public class HollowEventHandler {
                 if (player.dimension == DimensionType.NETHER.getId()) {
                     WorldServer serverWorld = sp.getServerWorld();
                     buildSafeCube(serverWorld, sp.posX, sp.posY, sp.posZ);
-                    BlockPos pos = new BlockPos(sp.posX, sp.posY, sp.posZ);
+                    BlockPos pos = pos(sp.posX, sp.posY, sp.posZ);
                     sp.setSpawnPoint(pos, true);
                     sp.setSpawnDimension(DimensionType.NETHER.getId());
                     sp.setSpawnChunk(pos, true, DimensionType.NETHER.getId());
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void addTooltips(ItemTooltipEvent e) {
+        ItemStack stack = e.getItemStack();
+        if (stack.getItem() == MTRegistry.ICHOR)
+            e.getToolTip().add("msg.mastertech.ichor");
+        else if (stack.getItem() == MTRegistry.ICHOR_BAG)
+            e.getToolTip().add("msg.mastertech.ichor_bag");
     }
 
     private static void nullPlace(World world, BlockPos... pos) {

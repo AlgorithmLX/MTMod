@@ -1,0 +1,44 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "mastertech:item/coin"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "count": 0.0
+      },
+      "model": "mastertech:item/master_coin"
+    },
+    {
+      "predicate": {
+        "count": 1.0
+      },
+      "model": "mastertech:item/coin_size_little"
+    },
+    {
+      "predicate": {
+        "count": 2.0
+      },
+      "model": "mastertech:item/coin_size_medium"
+    },
+    {
+      "predicate": {
+        "count": 3.0
+      },
+      "model": "mastertech:item/coin_size_large"
+    },
+    {
+      "predicate": {
+        "count": 4.0
+      },
+      "model": "mastertech:item/coin_size_so_large"
+    },
+    {
+      "predicate": {
+        "count": 5.0
+      },
+      "model": "mastertech:item/coin_size_more_so_large"
+    }
+  ]
+}

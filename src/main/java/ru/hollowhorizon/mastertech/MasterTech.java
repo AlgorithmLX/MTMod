@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import ru.hollowhorizon.mastertech.api.IProxy;
-import ru.hollowhorizon.mastertech.registry.MTItemRegistry;
+import ru.hollowhorizon.mastertech.registry.MTRegistry;
 
 import javax.annotation.Nonnull;
 
@@ -26,7 +26,7 @@ public class MasterTech {
     public static final CreativeTabs tab = new CreativeTabs(MODID) {
         @Override
         public @Nonnull ItemStack getTabIconItem() {
-            return new ItemStack(MTItemRegistry.ICHOR);
+            return new ItemStack(MTRegistry.ICHOR);
         }
     };
 
@@ -42,6 +42,7 @@ public class MasterTech {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER = event.getModLog();
+        MTRegistry.init();
         proxy.preInit(event);
     }
 

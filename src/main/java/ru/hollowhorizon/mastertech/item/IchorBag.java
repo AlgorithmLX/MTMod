@@ -7,9 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import ru.hollowhorizon.mastertech.api.item.ItemBase;
-import ru.hollowhorizon.mastertech.registry.MTItemRegistry;
+import ru.hollowhorizon.mastertech.registry.MTRegistry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class IchorBag extends ItemBase {
     public IchorBag() {
@@ -21,7 +23,7 @@ public class IchorBag extends ItemBase {
         ItemStack held = playerIn.getHeldItem(handIn);
 
         if (held.getItem() == this && !worldIn.isRemote) {
-            EntityItem ichorEnt = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(MTItemRegistry.ICHOR, 8));
+            EntityItem ichorEnt = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(MTRegistry.ICHOR, 8));
             ichorEnt.setNoPickupDelay();
             worldIn.spawnEntity(ichorEnt);
             held.shrink(1);
