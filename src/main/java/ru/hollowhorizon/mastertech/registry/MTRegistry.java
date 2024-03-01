@@ -45,7 +45,7 @@ public class MTRegistry {
     private static void reg(Item item, String fn) {
         ITEMS.add(item);
         String name = fn.toLowerCase(Locale.ENGLISH);
-        item.setRegistryName(MasterTech.MODID, name).setUnlocalizedName(MasterTech.MODID + "." + name);
+        item.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
         MasterTech.LOGGER.debug("Item " + name + " is registered.");
     }
 
@@ -54,8 +54,8 @@ public class MTRegistry {
         BLOCKS.put(block, blockItem);
         ITEMS.add(blockItem);
         String name = fn.toLowerCase(Locale.ENGLISH);
-        block.setRegistryName(MasterTech.MODID, name).setUnlocalizedName(MasterTech.MODID + "." + name);
-        blockItem.setRegistryName(MasterTech.MODID, name).setUnlocalizedName(MasterTech.MODID + "." + name);
+        block.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
+        blockItem.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
         MasterTech.LOGGER.debug("Block " + name + " is registered.");
     }
 

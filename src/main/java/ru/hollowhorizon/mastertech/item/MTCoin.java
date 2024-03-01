@@ -11,10 +11,10 @@ public class MTCoin extends ItemBase {
 
     private float count2texture(int count) {
         if (count > 4 && count <= 6) return 1F;
-        else if (count > 7 && count <= 12) return 2F;
-        else if (count > 13 && count <= 20) return 3F;
-        else if (count > 21 && count <= 40) return 4F;
-        else if (count > 54) return 5F;
+        else if (count >= 7 && count <= 12) return 2F;
+        else if (count >= 13 && count <= 20) return 3F;
+        else if (count >= 21 && count <= 40) return 4F;
+        else if (count >= 54) return 5F;
         return 0F;
     }
 }
