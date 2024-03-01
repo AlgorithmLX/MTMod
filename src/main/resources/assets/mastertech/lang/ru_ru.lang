@@ -1,0 +1,18 @@
+#MASTER TECH MOD TRANSLATION FILE
+#LOCALE: РУССКИЙ
+#LAST REDACTOR: ALGORITHMLX (IVAN/NERO)
+
+#item group
+itemGroup.mastertech=MasterTech: Hollow Beginning
+
+#items
+item.mastertech.ichor.name=Ихор
+item.mastertech.ichor_bag.name=Мешок с Ихором
+item.mastertech.mithrite.name=Мифрит
+item.mastertech.mithrite_ingot.name=Мифритовый слиток
+item.mastertech.master_coin.name=Мастер монета
+item.mastertech.ichorium=Ихорий
+
+#tooltips
+msg.mastertech.ichor=О да, это та самая кровь Богов
+msg.mastertech.ichor_bag=Очень странный предмет, содержащий ихор? Где-то здесь есть подвох...

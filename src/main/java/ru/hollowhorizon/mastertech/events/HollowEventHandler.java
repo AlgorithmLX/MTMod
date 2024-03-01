@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -24,6 +25,7 @@ import ru.hollowhorizon.mastertech.api.model.IModeled;
 import ru.hollowhorizon.mastertech.registry.MTRegistry;
 import ru.hollowhorizon.mastertech.util.SpawnHelper;
 
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = MasterTech.MODID)
 public class HollowEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -85,9 +87,9 @@ public class HollowEventHandler {
     public static void addTooltips(ItemTooltipEvent e) {
         ItemStack stack = e.getItemStack();
         if (stack.getItem() == MTRegistry.ICHOR)
-            e.getToolTip().add("msg.mastertech.ichor");
+            e.getToolTip().add(I18n.translateToLocal("msg.mastertech.ichor"));
         else if (stack.getItem() == MTRegistry.ICHOR_BAG)
-            e.getToolTip().add("msg.mastertech.ichor_bag");
+            e.getToolTip().add(I18n.translateToLocal("msg.mastertech.ichor_bag"));
     }
 
     private static void nullPlace(World world, BlockPos... pos) {

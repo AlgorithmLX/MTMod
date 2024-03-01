@@ -1,0 +1,18 @@
+#MASTER TECH MOD TRANSLATION FILE
+#LOCALE: ENGLISH
+#LAST REDACTOR: ALGORITHMLX (IVAN/NERO)
+
+#item group
+itemGroup.mastertech=MasterTech: Hollow Beginning
+
+#items
+item.mastertech.ichor.name=Ichor
+item.mastertech.ichor_bag.name=Ichor Bag
+item.mastertech.mithrite.name=Mithrite
+item.mastertech.mithrite_ingot.name=Mithrite Ingot
+item.mastertech.master_coin.name=Master Coin
+item.mastertech.ichorium.name=Ichorium
+
+#tooltips
+msg.mastertech.ichor=Oh, yeah, that's the blood of the gods
+msg.mastertech.ichor_bag=A very strange item containing ichor? There's a catch...
