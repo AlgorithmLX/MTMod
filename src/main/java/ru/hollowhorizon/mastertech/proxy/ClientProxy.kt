@@ -1,27 +1,28 @@
-package ru.hollowhorizon.mastertech.proxy;
+package ru.hollowhorizon.mastertech.proxy
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import ru.hollowhorizon.mastertech.api.IProxy;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation
+import net.minecraft.item.Item
+import net.minecraftforge.client.model.ModelLoader
+import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import ru.hollowhorizon.mastertech.api.IProxy
+import java.util.*
 
-import java.util.Objects;
+class ClientProxy : IProxy {
+    override fun preInit(e: FMLPreInitializationEvent) {}
 
-public class ClientProxy implements IProxy {
-    @Override
-    public void preInit(FMLPreInitializationEvent e) {}
+    override fun init(e: FMLInitializationEvent) {}
 
-    @Override
-    public void init(FMLInitializationEvent e) {}
+    override fun postInit(e: FMLPostInitializationEvent) {}
 
-    @Override
-    public void postInit(FMLPostInitializationEvent e) {}
-
-    @Override
-    public void getRender(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), id));
+    override fun getRender(item: Item, meta: Int, id: String) {
+        item.registryName?.let { ModelResourceLocation(it, id) }?.let {
+            ModelLoader.setCustomModelResourceLocation(
+                item,
+                meta,
+                it
+            )
+        }
     }
 }

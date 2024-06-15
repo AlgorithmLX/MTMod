@@ -1,17 +1,14 @@
-package ru.hollowhorizon.mastertech.util;
+package ru.hollowhorizon.mastertech.util
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
+ import net.minecraft.entity.player.EntityPlayerMP
 
-public class SpawnHelper {
-    public static void teleportToDim(EntityPlayerMP sp, int dimension) {
-        WorldServer serverWorld = sp.getServerWorld();
+object SpawnHelper {
+    @JvmStatic
+    fun teleportToDim(sp: EntityPlayerMP, dimension: Int) {
+        val serverWorld = sp.serverWorld
 
-        if (!serverWorld.isRemote)
-            sp.changeDimension(
-                    dimension,
-                    (world, entity, yaw) -> {}
-            );
+        if (!serverWorld.isRemote) sp.changeDimension(
+            dimension
+        ) { world, entity, yaw -> }
     }
 }

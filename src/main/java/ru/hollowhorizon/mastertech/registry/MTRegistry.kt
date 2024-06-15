@@ -1,65 +1,88 @@
-package ru.hollowhorizon.mastertech.registry;
+package ru.hollowhorizon.mastertech.registry
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import ru.hollowhorizon.mastertech.MasterTech;
-import ru.hollowhorizon.mastertech.api.item.ItemBase;
-import ru.hollowhorizon.mastertech.item.IchorBag;
-import ru.hollowhorizon.mastertech.item.MTCoin;
+import net.minecraft.block.Block
+import net.minecraft.item.Item
+import net.minecraft.item.ItemBlock
+import ru.hollowhorizon.mastertech.MasterTech
+import ru.hollowhorizon.mastertech.api.Register
+import ru.hollowhorizon.mastertech.api.item.ItemBase
+import ru.hollowhorizon.mastertech.item.IchorBag
+import ru.hollowhorizon.mastertech.item.MTCoin
 
-import java.lang.reflect.Field;
-import java.util.*;
+object MTRegistry {
+    @JvmField
+    val BLOCKS: MutableMap<Block, ItemBlock> = LinkedHashMap()
+    @JvmField
+    val ITEMS: MutableSet<Item> = LinkedHashSet()
 
-public class MTRegistry {
-    public static Map<Block, ItemBlock> BLOCKS = new LinkedHashMap<>();
-    public static Set<Item> ITEMS = new LinkedHashSet<>();
+    @field:Register("ichor")
+    @JvmField
+    val ICHOR: Item = ItemBase()
 
-    public static final Item ICHOR = new ItemBase();
-    public static final Item ICHOR_BAG = new IchorBag();
-    public static final Item MITHRITE = new ItemBase();
-    public static final Item MITHRITE_INGOT = new ItemBase();
-    public static final Item ICHORIUM = new ItemBase();
-    public static final Item MASTER_COIN = new MTCoin();
+    @field:Register("ichor_bag")
+    @JvmField
+    val ICHOR_BAG: Item = IchorBag()
 
-    public static void init() {
-        MasterTech.LOGGER.info("Initializing Registry...");
+    @field:Register("mithrite")
+    @JvmField
+    val MITHRITE: Item = ItemBase()
+
+    @field:Register("mithrite_ingot")
+    @JvmField
+    val MITHRITE_INGOT: Item = ItemBase()
+
+    @field:Register("ichorium")
+    @JvmField
+    val ICHORIUM: Item = ItemBase()
+
+    @field:Register("mt_coin")
+    @JvmField
+    val MASTER_COIN: Item = MTCoin()
+
+    @JvmStatic
+    fun init() {
+        MasterTech.LOGGER.info("Initializing Registry...")
         try {
-            for (Field field : MTRegistry.class.getDeclaredFields()) {
-                if (field.get(null) instanceof Item) {
-                    Item item = (Item) field.get(null);
-                    reg(item, field.getName());
-                }
+            for (field in MTRegistry::class.java.declaredFields) {
+                if (field.isAnnotationPresent(Register::class.java)) {
+                    val annot = field.getAnnotation(Register::class.java)
+                    val inst = field[null]
+                    if (inst is Item) {
+                        reg(inst, annot.name)
+                    }
 
-                if (field.get(null) instanceof Block) {
-                    Block block = (Block) field.get(null);
-                    reg(block, field.getName());
+                    if (inst is Block) {
+                        reg(inst, annot.name)
+                    }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
+        } catch (e: Exception) {
+            MasterTech.LOGGER.info("Failed to initialize registry", e)
+            e.printStackTrace()
+            return
         }
     }
 
-    private static void reg(Item item, String fn) {
-        ITEMS.add(item);
-        String name = fn.toLowerCase(Locale.ENGLISH);
-        item.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
-        MasterTech.LOGGER.debug("Item " + name + " is registered.");
+    private fun reg(item: Item, fn: String) {
+        ITEMS.add(item)
+        val name = fn.lowercase()
+        item.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name)
+        MasterTech.LOGGER.debug("Item $name is registered.")
     }
 
-    private static void reg(Block block, String fn) {
-        final ItemBlock blockItem = new ItemBlock(block);
-        BLOCKS.put(block, blockItem);
-        ITEMS.add(blockItem);
-        String name = fn.toLowerCase(Locale.ENGLISH);
-        block.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
-        blockItem.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name);
-        MasterTech.LOGGER.debug("Block " + name + " is registered.");
+    @JvmName("regBlock")
+    private fun reg(block: Block, fn: String) {
+        val blockItem = ItemBlock(block)
+        BLOCKS[block] = blockItem
+        ITEMS.add(blockItem)
+        val name = fn.lowercase()
+        block.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name)
+        blockItem.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name)
+        MasterTech.LOGGER.debug("Block $name is registered.")
     }
 
-    public static ItemBlock getMTItemByBlock(Block block) {
-        return BLOCKS.get(block);
+    @JvmStatic
+    fun getMTItemByBlock(block: Block): ItemBlock? {
+        return BLOCKS[block]
     }
 }

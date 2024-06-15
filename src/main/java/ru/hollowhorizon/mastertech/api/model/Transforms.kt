@@ -1,81 +1,105 @@
-package ru.hollowhorizon.mastertech.api.model;
+package ru.hollowhorizon.mastertech.api.model
 
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType
+import net.minecraftforge.common.model.IModelState
+import net.minecraftforge.common.model.TRSRTransformation
+import java.util.*
+import javax.vecmath.Vector3f
+import kotlin.collections.HashMap
 
-import javax.vecmath.Vector3f;
-import java.util.HashMap;
-import java.util.Map;
+object Transforms {
+    @JvmField
+    val DEFAULT_BLOCK: IModelState
+    @JvmField
+    val DEFAULT_ITEM: IModelState
+    @JvmField
+    val DEFAULT_TOOL: IModelState
+    @JvmField
+    val DEFAULT_BOW: IModelState
+    @JvmField
+    val DEFAULT_HANDHELD_ROD: IModelState
 
-public class Transforms {
-    public static final IModelState DEFAULT_BLOCK;
-    public static final IModelState DEFAULT_ITEM;
-    public static final IModelState DEFAULT_TOOL;
-    public static final IModelState DEFAULT_BOW;
-    public static final IModelState DEFAULT_HANDHELD_ROD;
+    init {
+        var map: MutableMap<TransformType, TRSRTransformation> = EnumMap(TransformType::class.java)
+        var thirdPerson = create(0f, 2.5f, 0f, 75f, 45f, 0f, 0.375f)
+        map[TransformType.GUI] = create(0f, 0f, 0f, 30f, 225f, 0f, 0.625f)
+        map[TransformType.GROUND] = create(0f, 3f, 0f, 0f, 0f, 0f, 0.25f)
+        map[TransformType.FIXED] = create(0f, 0f, 0f, 0f, 0f, 0f, 0.5f)
+        map[TransformType.THIRD_PERSON_RIGHT_HAND] = thirdPerson
+        map[TransformType.THIRD_PERSON_LEFT_HAND] = flipLeft(thirdPerson)
+        map[TransformType.FIRST_PERSON_RIGHT_HAND] = create(0f, 0f, 0f, 0f, 45f, 0f, 0.4f)
+        map[TransformType.FIRST_PERSON_LEFT_HAND] = create(0f, 0f, 0f, 0f, 225f, 0f, 0.4f)
+        DEFAULT_BLOCK = ModelStateImpl(map)
 
-    static {
-        Map<TransformType, TRSRTransformation> map;
-        TRSRTransformation thirdPerson;
-        TRSRTransformation firstPerson;
+        map = EnumMap(TransformType::class.java)
+        thirdPerson = create(0f, 3f, 1f, 0f, 0f, 0f, 0.55f)
+        val firstPerson =
+            create(1.13f, 3.2f, 1.13f, 0f, -90f, 25f, 0.68f)
+        map[TransformType.GROUND] = create(0f, 2f, 0f, 0f, 0f, 0f, 0.5f)
+        map[TransformType.HEAD] = create(0f, 13f, 7f, 0f, 180f, 0f, 1f)
+        map[TransformType.THIRD_PERSON_RIGHT_HAND] = thirdPerson
+        map[TransformType.THIRD_PERSON_LEFT_HAND] = flipLeft(thirdPerson)
+        map[TransformType.FIRST_PERSON_RIGHT_HAND] = firstPerson
+        map[TransformType.FIRST_PERSON_LEFT_HAND] = flipLeft(firstPerson)
+        DEFAULT_ITEM = ModelStateImpl(map)
 
-        map = new HashMap<>();
-        thirdPerson = create(0F,2.5F, 0F,75F, 45F, 0F,0.375F );
-        map.put(TransformType.GUI, create(0F,  0F, 0F,30F,225F, 0F,0.625F));
-        map.put(TransformType.GROUND, create(0F, 3F, 0F, 0F, 0F, 0F, 0.25F));
-        map.put(TransformType.FIXED, create(0F, 0F, 0F, 0F, 0F, 0F, 0.5F));
-        map.put(TransformType.THIRD_PERSON_RIGHT_HAND, thirdPerson);
-        map.put(TransformType.THIRD_PERSON_LEFT_HAND, flipLeft(thirdPerson));
-        map.put(TransformType.FIRST_PERSON_RIGHT_HAND, create(0F, 0F, 0F, 0F, 45F, 0F, 0.4F));
-        map.put(TransformType.FIRST_PERSON_LEFT_HAND, create(0F, 0F, 0F, 0F, 225F, 0F, 0.4F));
-        DEFAULT_BLOCK = new ModelStateImpl(map);
+        map = EnumMap(TransformType::class.java)
+        map[TransformType.GROUND] = create(0f, 2f, 0f, 0f, 0f, 0f, 0.5f)
+        map[TransformType.THIRD_PERSON_RIGHT_HAND] =
+            create(0f, 4f, 0.5f, 0f, -90f, 55f, 0.85f)
+        map[TransformType.THIRD_PERSON_LEFT_HAND] = create(0f, 4f, 0.5f, 0f, 90f, -55f, 0.85f)
+        map[TransformType.FIRST_PERSON_RIGHT_HAND] = create(1.13f, 3.2f, 1.13f, 0f, -90f, 25f, 0.68f)
+        map[TransformType.FIRST_PERSON_LEFT_HAND] = create(1.13f, 3.2f, 1.13f, 0f, 90f, -25f, 0.68f)
+        DEFAULT_TOOL = ModelStateImpl(map)
 
-        map = new HashMap<>();
-        thirdPerson = create(0F, 3F, 1F, 0F, 0F, 0F, 0.55F);
-        firstPerson = create(1.13F,3.2F,1.13F, 0F,-90F,25F, 0.68F);
-        map.put(TransformType.GROUND, create(0F, 2F, 0F, 0F, 0F, 0F, 0.5F));
-        map.put(TransformType.HEAD, create(0F, 13F, 7F, 0F,180F, 0F, 1F));
-        map.put(TransformType.THIRD_PERSON_RIGHT_HAND, thirdPerson);
-        map.put(TransformType.THIRD_PERSON_LEFT_HAND, flipLeft(thirdPerson));
-        map.put(TransformType.FIRST_PERSON_RIGHT_HAND, firstPerson);
-        map.put(TransformType.FIRST_PERSON_LEFT_HAND, flipLeft(firstPerson));
-        DEFAULT_ITEM = new ModelStateImpl(map);
+        map = EnumMap(TransformType::class.java)
+        map[TransformType.GROUND] = create(0f, 2f, 0f, 0f, 0f, 0f, 0.5f)
+        map[TransformType.THIRD_PERSON_RIGHT_HAND] = create(-1f, -2f, 2.5f, -80f, 260f, -40f, 0.9f)
+        map[TransformType.THIRD_PERSON_LEFT_HAND] =
+            create(-1f, -2f, 2.5f, -80f, -280f, 40f, 0.9f)
+        map[TransformType.FIRST_PERSON_RIGHT_HAND] =
+            create(1.13f, 3.2f, 1.13f, 0f, -90f, 25f, 0.68f)
+        map[TransformType.FIRST_PERSON_LEFT_HAND] = create(1.13f, 3.2f, 1.13f, 0f, 90f, -25f, 0.68f)
+        DEFAULT_BOW = ModelStateImpl(map)
 
-        map = new HashMap<>();
-        map.put(TransformType.GROUND, create(0F, 2F,0F, 0F,0F, 0F, 0.5F));
-        map.put(TransformType.THIRD_PERSON_RIGHT_HAND, create(   0F,  4F, 0.5F, 0F,-90F, 55,0.85F));
-        map.put(TransformType.THIRD_PERSON_LEFT_HAND, create(   0F,  4F, 0.5F, 0F, 90F,-55,0.85F));
-        map.put(TransformType.FIRST_PERSON_RIGHT_HAND, create(1.13F,3.2F,1.13F, 0F,-90F, 25,0.68F));
-        map.put(TransformType.FIRST_PERSON_LEFT_HAND, create(1.13F,3.2F,1.13F, 0F, 90F,-25,0.68F));
-        DEFAULT_TOOL = new ModelStateImpl(map);
-
-        map = new HashMap<>();
-        map.put(TransformType.GROUND, create(0F, 2F, 0F, 0F, 0F, 0F, 0.5F));
-        map.put(TransformType.THIRD_PERSON_RIGHT_HAND, create(-1F, -2F, 2.5F,-80F, 260F,-40F, 0.9F));
-        map.put(TransformType.THIRD_PERSON_LEFT_HAND, create(-1F, -2F, 2.5F,-80F,-280F, 40F, 0.9F));
-        map.put(TransformType.FIRST_PERSON_RIGHT_HAND, create(1.13F,3.2F,1.13F, 0F, -90F, 25F,0.68F));
-        map.put(TransformType.FIRST_PERSON_LEFT_HAND, create(1.13F,3.2F,1.13F, 0F, 90F,-25F,0.68F));
-        DEFAULT_BOW = new ModelStateImpl(map);
-
-        map = new HashMap<>();
-        map.put(TransformType.GROUND, create(0F, 2F, 0F, 0F, 0F,0F, 0.5F));
-        map.put(TransformType.THIRD_PERSON_RIGHT_HAND, create(0F, 4F,2.5F, 0F, 90F, 55F,0.85F));
-        map.put(TransformType.THIRD_PERSON_LEFT_HAND, create(0F, 4F,2.5F, 0F,-90F,-55F,0.85F));
-        map.put(TransformType.FIRST_PERSON_RIGHT_HAND, create(0F,1.6F,0.8F, 0F, 90F, 25F,0.68F));
-        map.put(TransformType.FIRST_PERSON_LEFT_HAND, create(0F,1.6F,0.8F, 0F,-90F,-25F,0.68F));
-        DEFAULT_HANDHELD_ROD = new ModelStateImpl(map);
+        map = EnumMap(TransformType::class.java)
+        map[TransformType.GROUND] = create(0f, 2f, 0f, 0f, 0f, 0f, 0.5f)
+        map[TransformType.THIRD_PERSON_RIGHT_HAND] =
+            create(0f, 4f, 2.5f, 0f, 90f, 55f, 0.85f)
+        map[TransformType.THIRD_PERSON_LEFT_HAND] =
+            create(0f, 4f, 2.5f, 0f, -90f, -55f, 0.85f)
+        map[TransformType.FIRST_PERSON_RIGHT_HAND] = create(0f, 1.6f, 0.8f, 0f, 90f, 25f, 0.68f)
+        map[TransformType.FIRST_PERSON_LEFT_HAND] = create(0f, 1.6f, 0.8f, 0f, -90f, -25f, 0.68f)
+        DEFAULT_HANDHELD_ROD = ModelStateImpl(map)
     }
 
-    public static TRSRTransformation create(float tx, float ty, float tz, float rx, float ry, float rz, float s) {
-        return create(new Vector3f(tx / 16, ty / 16, tz / 16), new Vector3f(rx, ry, rz), new Vector3f(s, s, s));
+    @JvmStatic
+    fun create(tx: Float, ty: Float, tz: Float, rx: Float, ry: Float, rz: Float, s: Float): TRSRTransformation {
+        return create(Vector3f(tx / 16, ty / 16, tz / 16), Vector3f(rx, ry, rz), Vector3f(s, s, s))
     }
 
-    public static TRSRTransformation create(Vector3f transform, Vector3f rotation, Vector3f scale) {
-        return TRSRTransformation.blockCenterToCorner(new TRSRTransformation(transform, TRSRTransformation.quatFromXYZDegrees(rotation), scale, null));
+    @JvmStatic
+    fun create(transform: Vector3f?, rotation: Vector3f?, scale: Vector3f?): TRSRTransformation {
+        return TRSRTransformation.blockCenterToCorner(
+            TRSRTransformation(
+                transform,
+                TRSRTransformation.quatFromXYZDegrees(rotation),
+                scale,
+                null
+            )
+        )
     }
 
-    public static TRSRTransformation flipLeft(TRSRTransformation transform) {
-        return TRSRTransformation.blockCenterToCorner(new TRSRTransformation(null, null, new Vector3f(-1, 1, 1), null).compose(TRSRTransformation.blockCornerToCenter(transform)).compose(new TRSRTransformation(null, null, new Vector3f(-1, 1, 1), null)));
+    @JvmStatic
+    fun flipLeft(transform: TRSRTransformation?): TRSRTransformation {
+        return TRSRTransformation.blockCenterToCorner(
+            TRSRTransformation(
+                null,
+                null,
+                Vector3f(-1f, 1f, 1f),
+                null
+            ).compose(TRSRTransformation.blockCornerToCenter(transform))
+                .compose(TRSRTransformation(null, null, Vector3f(-1f, 1f, 1f), null))
+        )
     }
 }

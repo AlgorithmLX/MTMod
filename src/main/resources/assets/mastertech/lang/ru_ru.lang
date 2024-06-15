@@ -11,7 +11,7 @@ item.mastertech.ichor_bag.name=Мешок с Ихором
 item.mastertech.mithrite.name=Мифрит
 item.mastertech.mithrite_ingot.name=Мифритовый слиток
 item.mastertech.master_coin.name=Мастер монета
-item.mastertech.ichorium=Ихорий
+item.mastertech.ichorium.name=Ихорий
 
 #tooltips
 msg.mastertech.ichor=О да, это та самая кровь Богов

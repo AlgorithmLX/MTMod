@@ -1,22 +1,17 @@
-package ru.hollowhorizon.mastertech.proxy;
+package ru.hollowhorizon.mastertech.proxy
 
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import ru.hollowhorizon.mastertech.api.IProxy;
-import ru.hollowhorizon.mastertech.registry.MTRegistry;
+import net.minecraft.item.Item
+import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import ru.hollowhorizon.mastertech.api.IProxy
 
-public class ServerProxy implements IProxy {
-    @Override
-    public void preInit(FMLPreInitializationEvent e) {}
+class ServerProxy : IProxy {
+    override fun preInit(e: FMLPreInitializationEvent) {}
 
-    @Override
-    public void init(FMLInitializationEvent e) {}
+    override fun init(e: FMLInitializationEvent) {}
 
-    @Override
-    public void postInit(FMLPostInitializationEvent e) {}
+    override fun postInit(e: FMLPostInitializationEvent) {}
 
-    @Override
-    public void getRender(Item item, int meta, String id) {}
+    override fun getRender(item: Item, meta: Int, id: String) {}
 }

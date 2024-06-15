@@ -1,5 +1,5 @@
-package ru.hollowhorizon.mastertech.api.model;
+package ru.hollowhorizon.mastertech.api.model
 
-public interface IModeled {
-    void registerModels();
+interface IModeled {
+    fun registerModels()
 }

@@ -8,7 +8,7 @@
       "predicate": {
         "count": 0.0
       },
-      "model": "mastertech:item/master_coin"
+      "model": "mastertech:item/mt_coin"
     },
     {
       "predicate": {

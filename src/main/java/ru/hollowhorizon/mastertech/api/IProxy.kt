@@ -1,18 +1,18 @@
-package ru.hollowhorizon.mastertech.api;
+package ru.hollowhorizon.mastertech.api
 
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.item.Item
+import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-public interface IProxy {
-    void preInit(FMLPreInitializationEvent e);
+interface IProxy {
+    fun preInit(e: FMLPreInitializationEvent)
 
-    void init(FMLInitializationEvent e);
+    fun init(e: FMLInitializationEvent)
 
-    void postInit(FMLPostInitializationEvent e);
+    fun postInit(e: FMLPostInitializationEvent)
 
-    void getRender(Item item, int meta, String id);
+    fun getRender(item: Item, meta: Int, id: String)
 
-    default void getDefaultItemRenderer(Item item) {}
+    fun getDefaultItemRenderer(item: Item) {}
 }
