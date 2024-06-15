@@ -13,13 +13,11 @@ import net.minecraft.world.WorldServer
 import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.event.entity.player.ItemTooltipEvent
-import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent
 import ru.hollowhorizon.mastertech.MasterTech
-import ru.hollowhorizon.mastertech.MasterTech.Companion.LOGGER
 import ru.hollowhorizon.mastertech.api.model.IModeled
 import ru.hollowhorizon.mastertech.registry.MTRegistry
 import ru.hollowhorizon.mastertech.util.SpawnHelper
@@ -67,6 +65,10 @@ object HollowEventHandler {
     @SubscribeEvent
     fun onPlayerJoining(event: PlayerLoggedInEvent) {
         val player = event.player
+        val cfg = MasterTech.commonConfig.spawnInNether
+
+        // Broke event, if config value is false
+        if (!cfg) return
 
         if (!player.world.isRemote) {
             val sp = player as EntityPlayerMP

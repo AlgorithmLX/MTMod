@@ -43,10 +43,10 @@ object MTRegistry {
     fun init() {
         MasterTech.LOGGER.info("Initializing Registry...")
         try {
-            for (field in MTRegistry::class.java.declaredFields) {
-                if (field.isAnnotationPresent(Register::class.java)) {
-                    val annot = field.getAnnotation(Register::class.java)
-                    val inst = field[null]
+            MTRegistry::class.java.declaredFields.forEach {
+                if (it.isAnnotationPresent(Register::class.java)) {
+                    val annot = it.getAnnotation(Register::class.java)
+                    val inst = it[null]
                     if (inst is Item) {
                         reg(inst, annot.name)
                     }
@@ -64,8 +64,17 @@ object MTRegistry {
     }
 
     private fun reg(item: Item, fn: String) {
-        ITEMS.add(item)
         val name = fn.lowercase()
+        if (name.contains("mithrite")) {
+            val allow = MasterTech.commonConfig.experiments.allowMithrite
+            if (!allow) return
+        } else if (name.contains("mt_coin")) {
+            val allow = MasterTech.commonConfig.experiments.allowNewCoins
+            if (!allow) return
+        }
+
+        ITEMS.add(item)
+
         item.setRegistryName(MasterTech.MODID, name).setTranslationKey(MasterTech.MODID + "." + name)
         MasterTech.LOGGER.debug("Item $name is registered.")
     }
