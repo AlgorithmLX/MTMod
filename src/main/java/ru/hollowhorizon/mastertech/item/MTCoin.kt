@@ -19,7 +19,7 @@ class MTCoin : ItemBase() {
         if (count in 2..6) return 1f
         else if (count in 7..12) return 2f
         else if (count in 13..20) return 3f
-        else if (count in 21..40) return 4f
+        else if (count in 21..54) return 4f
         else if (count >= 54) return 5f
         return 0f
     }

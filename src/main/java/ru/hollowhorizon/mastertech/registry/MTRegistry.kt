@@ -15,11 +15,11 @@ object MTRegistry {
     @JvmField
     val ITEMS: MutableSet<Item> = LinkedHashSet()
 
-    @field:Register("ichor")
+    @field:Register("ihor")
     @JvmField
     val ICHOR: Item = ItemBase()
 
-    @field:Register("ichor_bag")
+    @field:Register("ihorbag")
     @JvmField
     val ICHOR_BAG: Item = IchorBag()
 
@@ -65,13 +65,6 @@ object MTRegistry {
 
     private fun reg(item: Item, fn: String) {
         val name = fn.lowercase()
-        if (name.contains("mithrite")) {
-            val allow = MasterTech.commonConfig.experiments.allowMithrite
-            if (!allow) return
-        } else if (name.contains("mt_coin")) {
-            val allow = MasterTech.commonConfig.experiments.allowNewCoins
-            if (!allow) return
-        }
 
         ITEMS.add(item)
 

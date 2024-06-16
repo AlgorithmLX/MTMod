@@ -6,11 +6,11 @@
 itemGroup.mastertech=MasterTech: Hollow Beginning
 
 #items
-item.mastertech.ichor.name=Ихор
-item.mastertech.ichor_bag.name=Мешок с Ихором
+item.mastertech.ihor.name=Ихор
+item.mastertech.ihorbag.name=Мешок с Ихором
 item.mastertech.mithrite.name=Мифрит
 item.mastertech.mithrite_ingot.name=Мифритовый слиток
-item.mastertech.master_coin.name=Мастер монета
+item.mastertech.mt_coin.name=Мастер монета
 item.mastertech.ichorium.name=Ихорий
 
 #tooltips

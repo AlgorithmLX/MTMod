@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger
 import ru.hollowhorizon.mastertech.MasterTech
 import ru.hollowhorizon.mastertech.MasterTech.Companion
 import ru.hollowhorizon.mastertech.api.IProxy
-import ru.hollowhorizon.mastertech.api.helpers.Config
-import ru.hollowhorizon.mastertech.api.helpers.handleConfigAnnotations
 import ru.hollowhorizon.mastertech.data.MTConfig
 import ru.hollowhorizon.mastertech.registry.MTRegistry
 
@@ -30,10 +28,6 @@ class MasterTech {
         lateinit var proxy: IProxy
 
         @JvmField
-        @Config("master_tech_common")
-        val commonConfig: MTConfig = MTConfig()
-
-        @JvmField
         val tab: CreativeTabs = object : CreativeTabs(MODID) {
             override fun createIcon(): ItemStack {
                 return ItemStack(MTRegistry.ICHOR)
@@ -43,8 +37,6 @@ class MasterTech {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        handleConfigAnnotations(MasterTech::class.java)
-        handleConfigAnnotations(Companion::class.java)
         LOGGER = event.modLog
         MTRegistry.init()
         proxy.preInit(event)

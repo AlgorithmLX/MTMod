@@ -65,10 +65,6 @@ object HollowEventHandler {
     @SubscribeEvent
     fun onPlayerJoining(event: PlayerLoggedInEvent) {
         val player = event.player
-        val cfg = MasterTech.commonConfig.spawnInNether
-
-        // Broke event, if config value is false
-        if (!cfg) return
 
         if (!player.world.isRemote) {
             val sp = player as EntityPlayerMP

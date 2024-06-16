@@ -7,13 +7,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import ru.hollowhorizon.mastertech.api.IProxy
-import ru.hollowhorizon.mastertech.api.helpers.shouldToClientInit
-import java.util.*
 
 class ClientProxy : IProxy {
-    override fun preInit(e: FMLPreInitializationEvent) {
-        shouldToClientInit.forEach { it() }
-    }
+    override fun preInit(e: FMLPreInitializationEvent) {}
 
     override fun init(e: FMLInitializationEvent) {}
 

@@ -6,11 +6,11 @@
 itemGroup.mastertech=MasterTech: Hollow Beginning
 
 #items
-item.mastertech.ichor.name=Ichor
-item.mastertech.ichor_bag.name=Ichor Bag
+item.mastertech.ihor.name=Ichor
+item.mastertech.ihorbag.name=Ichor Bag
 item.mastertech.mithrite.name=Mithrite
 item.mastertech.mithrite_ingot.name=Mithrite Ingot
-item.mastertech.master_coin.name=Master Coin
+item.mastertech.mt_coin.name=Master Coin
 item.mastertech.ichorium.name=Ichorium
 
 #tooltips
