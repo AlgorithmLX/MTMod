@@ -13,7 +13,8 @@ import xt9.gamestagebooks.common.item.ItemBase;
 public class ItemBaseMixin {
     @Shadow(remap = false) public String displayName;
 
-    @Inject(method = "getItemStackDisplayName", at = @At("RETURN"), cancellable = true, remap = true)
+    //TODO: Fix
+    //@Inject(method = "getItemStackDisplayName", at = @At("RETURN"), cancellable = true, remap = true)
     public void displayName(ItemStack stack, CallbackInfoReturnable<String> cir) {
         cir.setReturnValue(I18n.hasKey(this.displayName) ? I18n.format(this.displayName) : this.displayName);
     }

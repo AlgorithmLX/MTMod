@@ -76,7 +76,7 @@ object HollowEventHandler {
                 if (player.dimension == DimensionType.NETHER.id) {
                     val serverLevel = sp.serverWorld
                     val pos = pos(sp.posX, sp.posY, sp.posZ)
-                    buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
+                    //buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
 
                     sp.setSpawnPoint(pos, true)
                     sp.setSpawnDimension(DimensionType.NETHER.id)

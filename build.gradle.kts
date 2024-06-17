@@ -7,10 +7,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version "1.9.22"
 
-    id("net.minecraftforge.gradle") version "5.+"
+    id("com.gtnewhorizons.retrofuturagradle") version "1.4.0"
     id("com.github.johnrengelman.shadow") version "7.+"
-
-    id("org.spongepowered.mixin") version "0.7.38"
 }
 
 val javaVersion = project.properties["java_version"].toString().toInt()
@@ -33,42 +31,13 @@ configurations {
     implementation.get().extendsFrom(this["shadow"])
 }
 
-mixin {
-    add(sourceSets.main.get(), "mastertech.refmap.json")
-}
-
 minecraft {
-    mappings("stable", "39-1.12")
+    mcVersion.set("1.12.2")
 
-    runs {
-        create("client") {
-            workingDirectory(project.file("run"))
+    injectedTags.put("VERSION", project.version)
+    extraRunJvmArguments.add("-ea:${project.group}")
 
-            arg("-mixin.config=mt_fixes.mixins.json")
-            property("forge.logging.markers", "REGISTRIES")
-            property("forge.logging.console.level", "debug")
-
-            mods {
-                create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
-                }
-            }
-        }
-
-        create("server") {
-            workingDirectory(project.file("run"))
-
-            arg("-mixin.config=mt_fixes.mixins.json")
-            property("forge.logging.markers", "REGISTRIES")
-            property("forge.logging.console.level", "debug")
-
-            mods {
-                create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
-                }
-            }
-        }
-    }
+    extraTweakClasses.add("org.spongepowered.asm.launch.MixinTweaker")
 }
 
 repositories {
@@ -90,8 +59,6 @@ dependencies {
     val serializationVersion: String by project
     val handler = project.dependencies
 
-    minecraft("net.minecraftforge:forge:1.12.2-14.23.5.2860")
-
     annotationProcessor("org.ow2.asm:asm-debug-all:5.2")
     annotationProcessor("com.google.guava:guava:32.1.2-jre")
     annotationProcessor("com.google.code.gson:gson:2.8.9")
@@ -100,18 +67,19 @@ dependencies {
     annotationProcessor("zone.rong:mixinbooter:9.1") { isTransitive = false }
     handler.add("annotationProcessor", "zone.rong:mixinbooter:9.1") { isTransitive = false }
     // For fixes
-    compileOnly(fg.deobf("curse.maven:thaumcraft-223628:2629023"))
-    compileOnly(fg.deobf("curse.maven:baubles-227083:2518667"))
 
-    compileOnly(fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:2978408"))
+    compileOnly(rfg.deobf("curse.maven:thaumcraft-223628:2629023"))
+    compileOnly(rfg.deobf("curse.maven:baubles-227083:2518667"))
 
-    compileOnly(fg.deobf("curse.maven:techreborn-233564:2966851"))
-    compileOnly(fg.deobf("curse.maven:reborncore-237903:3330308"))
+    compileOnly(rfg.deobf("curse.maven:pneumaticcraft-repressurized-281849:2978408"))
 
-    compileOnly(fg.deobf("curse.maven:gamestage-books-296392:2735851"))
+    compileOnly(rfg.deobf("curse.maven:techreborn-233564:2966851"))
+    compileOnly(rfg.deobf("curse.maven:reborncore-237903:3330308"))
+
+    compileOnly(rfg.deobf("curse.maven:gamestage-books-296392:2735851"))
 
     // Fixes deps
-    compileOnly(fg.deobf("curse.maven:computercraft-67504:2478952"))
+    compileOnly(rfg.deobf("curse.maven:computercraft-67504:2478952"))
 
     shadow("team._0mods:KotlinExtras:kotlin-$kotlinVersion")
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.0")
@@ -146,9 +114,9 @@ tasks {
                 )
             )
         }
-
-        finalizedBy("reobfJar")
     }
+
+
 
 //    withType<JavaCompile> {
 //        options.encoding = "UTF-8"
