@@ -116,13 +116,6 @@ tasks {
         }
     }
 
-
-
-//    withType<JavaCompile> {
-//        options.encoding = "UTF-8"
-//        options.release.set(javaVersion)
-//    }
-
     compileKotlin {
         useDaemonFallbackStrategy.set(false)
         compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
