@@ -1,11 +1,11 @@
-{
-  "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_8",
-  "package": "com.algorithmlx.mtfixes.mixin",
-  "mixins": [
-    "accessors.RepairContainerAccessor",
-    "ThaumcraftAnvilFixMixin"
-  ],
-  "client": [],
-  "refmap": "mastertech.refmap.json"
-}
+//{
+//  "minVersion": "0.8",
+//  "compatibilityLevel": "JAVA_8",
+//  "package": "com.algorithmlx.mtfixes.mixin",
+//  "mixins": [
+//    "accessors.RepairContainerAccessor",
+//    "ThaumcraftAnvilFixMixin"
+//  ],
+//  "client": [],
+//  "refmap": "mastertech.refmap.json"
+//}

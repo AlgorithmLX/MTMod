@@ -87,14 +87,6 @@ object HollowEventHandler {
     }
 
     @JvmStatic
-    @SubscribeEvent
-    fun addTooltips(e: ItemTooltipEvent) {
-        val stack = e.itemStack
-        if (stack.item == MTRegistry.ICHOR) e.toolTip.add(I18n.format("msg.mastertech.ichor"))
-        else if (stack.item == MTRegistry.ICHOR_BAG) e.toolTip.add(I18n.format("msg.mastertech.ichor_bag"))
-    }
-
-    @JvmStatic
     private fun nullPlace(world: World, vararg pos: BlockPos) {
         pos.forEach { place(world, Blocks.AIR, it) }
     }
