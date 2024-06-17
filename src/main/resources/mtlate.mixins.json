@@ -1,0 +1,12 @@
+{
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.algorithmlx.mtfixes.mixin",
+  "mixins": [
+    "LiquidCompressorContainerFixer",
+    "gamestagebooks.ItemBaseMixin",
+    "gamestagebooks.ItemStageBookMixin"
+  ],
+  "client": [],
+  "refmap": "mastertech.refmap.json"
+}

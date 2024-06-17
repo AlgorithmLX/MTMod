@@ -1,12 +1,12 @@
 package ru.hollowhorizon.mastertech.events
 
 import net.minecraft.block.Block
+import net.minecraft.client.resources.I18n
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.stats.StatList
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.translation.I18n
 import net.minecraft.world.DimensionType
 import net.minecraft.world.World
 import net.minecraft.world.WorldServer
@@ -90,8 +90,8 @@ object HollowEventHandler {
     @SubscribeEvent
     fun addTooltips(e: ItemTooltipEvent) {
         val stack = e.itemStack
-        if (stack.item == MTRegistry.ICHOR) e.toolTip.add(I18n.translateToLocal("msg.mastertech.ichor"))
-        else if (stack.item == MTRegistry.ICHOR_BAG) e.toolTip.add(I18n.translateToLocal("msg.mastertech.ichor_bag"))
+        if (stack.item == MTRegistry.ICHOR) e.toolTip.add(I18n.format("msg.mastertech.ichor"))
+        else if (stack.item == MTRegistry.ICHOR_BAG) e.toolTip.add(I18n.format("msg.mastertech.ichor_bag"))
     }
 
     @JvmStatic

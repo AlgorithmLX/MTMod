@@ -1,6 +1,6 @@
 package ru.hollowhorizon.mastertech.util
 
- import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.entity.player.EntityPlayerMP
 
 object SpawnHelper {
     @JvmStatic
