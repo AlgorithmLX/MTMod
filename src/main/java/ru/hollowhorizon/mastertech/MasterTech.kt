@@ -15,8 +15,8 @@ import ru.hollowhorizon.mastertech.registry.MTRegistry
 class MasterTech {
     companion object {
         const val MODID: String = "mastertech"
-        const val NAME: String = "MasterTech: Hollow Beginning"
-        const val VERSION: String = "1.0"
+        const val NAME: String = "MasterTech"
+        const val VERSION: String = "1.1"
 
         lateinit var LOGGER: Logger
 

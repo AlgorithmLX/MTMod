@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
 import ru.hollowhorizon.mastertech.MasterTech
 import ru.hollowhorizon.mastertech.api.model.IModeled
 import ru.hollowhorizon.mastertech.registry.MTRegistry
@@ -71,17 +72,38 @@ object HollowEventHandler {
 
             val timePlayed = sp.statFile.readStat(StatList.PLAY_ONE_MINUTE)
             if (timePlayed == 0) {
-                val level = player.serverWorld.saveHandler.worldDirectory
                 SpawnHelper.teleportToDim(sp, DimensionType.NETHER.id)
                 if (player.dimension == DimensionType.NETHER.id) {
                     val serverLevel = sp.serverWorld
                     val pos = pos(sp.posX, sp.posY, sp.posZ)
                     //buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
 
-                    sp.setSpawnPoint(pos, true)
-                    sp.setSpawnDimension(DimensionType.NETHER.id)
-                    sp.setSpawnChunk(pos, true, DimensionType.NETHER.id)
+                    val uuid = sp.uniqueID
+
+                    serverLevel.minecraftServer?.let {
+                        val p = it.playerList.players.filter { u -> u.uniqueID == uuid }[0]
+                        p.setSpawnPoint(pos, false)
+                        p.setSpawnDimension(DimensionType.NETHER.id)
+                        p.setSpawnChunk(pos, false, DimensionType.NETHER.id)
+                    }
                 }
+            }
+        }
+    }
+
+    @JvmStatic
+    @SubscribeEvent
+    fun onPlayerRespawn(e: PlayerRespawnEvent) {
+        val player = e.player
+
+        if (player is EntityPlayerMP) {
+            val bedPos = player.bedLocation
+            if (bedPos != null) MasterTech.LOGGER.info("Bed location for player ${player.name} at X:${bedPos.x} Y:${bedPos.y} Z:${bedPos.z}")
+
+            if (bedPos == null || player.isSpawnForced) {
+                MasterTech.LOGGER.info("Bed location is null.")
+                if (player.dimension != DimensionType.NETHER.id)
+                    SpawnHelper.teleportToDim(player, DimensionType.NETHER.id)
             }
         }
     }

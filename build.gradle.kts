@@ -32,7 +32,10 @@ configurations {
 }
 
 minecraft {
-    mcVersion.set("1.12.2")
+    mcVersion = "1.12.2"
+
+    username = "AlgorithmLX"
+    userUUID = "8a513c76-7f16-4aaf-aabf-1933c9452d48"
 
     injectedTags.put("VERSION", project.version)
     extraRunJvmArguments.add("-ea:${project.group}")
