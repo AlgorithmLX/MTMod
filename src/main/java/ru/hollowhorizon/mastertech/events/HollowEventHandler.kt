@@ -17,12 +17,13 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent
 import ru.hollowhorizon.mastertech.MasterTech
 import ru.hollowhorizon.mastertech.api.model.IModeled
 import ru.hollowhorizon.mastertech.registry.MTRegistry
 import ru.hollowhorizon.mastertech.util.SpawnHelper
 
-@Suppress("deprecation")
+@Suppress("SENSELESS_COMPARISON")
 @EventBusSubscriber(modid = MasterTech.MODID)
 object HollowEventHandler {
     @JvmStatic
@@ -72,20 +73,6 @@ object HollowEventHandler {
             val timePlayed = sp.statFile.readStat(StatList.PLAY_ONE_MINUTE)
             if (timePlayed == 0) {
                 SpawnHelper.teleportToDim(sp, DimensionType.NETHER.id)
-//                if (player.dimension == DimensionType.NETHER.id) {
-//                    val serverLevel = sp.serverWorld
-//                    val pos = pos(sp.posX, sp.posY, sp.posZ)
-//                    //buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
-//
-//                    val uuid = sp.uniqueID
-//
-//                    serverLevel.minecraftServer?.let {
-//                        val p = it.playerList.players.filter { u -> u.uniqueID == uuid }[0]
-//                        p.setSpawnPoint(pos, false)
-//                        p.setSpawnDimension(DimensionType.NETHER.id)
-//                        p.setSpawnChunk(pos, false, DimensionType.NETHER.id)
-//                    }
-//                }
             }
         }
     }
@@ -94,27 +81,26 @@ object HollowEventHandler {
     @SubscribeEvent
     fun onPlayerRespawn(e: PlayerRespawnEvent) {
         val player = e.player
+        val level = player.world
 
-        if (player.dimension != DimensionType.NETHER.id) {
-            // Fuck MC 1.12.2.
-            // Mojang and Lex, I hate you!
-            // Fuck you.
-            // TODO(Fix respawn)
-            if (!player.hasSpawnDimension() || player.bedLocation == null) {
-                if (player is EntityPlayerMP) {
-                    SpawnHelper.teleportToDim(player, DimensionType.NETHER.id)
+        if (!level.isRemote) {
+            if (player is EntityPlayerMP) {
+                val bedLocation: BlockPos? =
+                    if (player.dimension == DimensionType.OVERWORLD.id) player.getBedLocation(DimensionType.OVERWORLD.id)
+                    else {
+                        val dim = player.getBedLocation(player.dimension)
+                        if (dim != null) dim
+                        else player.getBedLocation(DimensionType.OVERWORLD.id)
+                    }
+
+                // Fuck MC 1.12.2.
+                // Mojang and Lex, I hate you!
+                // Fuck you.
+                if (bedLocation == null) {
+                    if (player.dimension != DimensionType.NETHER.id) {
+                        SpawnHelper.teleportToDim(player, DimensionType.NETHER.id)
+                    }
                 }
-            }
-        }
-    }
-
-    @JvmStatic
-    @SubscribeEvent
-    fun onBedSleep(e: PlayerSleepInBedEvent) {
-        val player = e.entityPlayer
-        if (player is EntityPlayerMP) {
-            if (!player.hasSpawnDimension()) {
-                player.setSpawnDimension(player.dimension)
             }
         }
     }
