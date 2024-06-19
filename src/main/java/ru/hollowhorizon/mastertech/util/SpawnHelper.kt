@@ -13,7 +13,7 @@ object SpawnHelper {
 
         if (!serverWorld.isRemote) sp.changeDimension(
             dimension
-        ) { world, entity, yaw ->
+        ) { _, entity, _ ->
             val pos = sp.server.getWorld(dimension).getSafeSpawn(sp.position)
             entity.setPosition(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
         }

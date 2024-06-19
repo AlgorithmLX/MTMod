@@ -1,7 +1,6 @@
 package ru.hollowhorizon.mastertech.events
 
 import net.minecraft.block.Block
-import net.minecraft.client.resources.I18n
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Blocks
 import net.minecraft.item.Item
@@ -12,7 +11,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldServer
 import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.event.entity.player.ItemTooltipEvent
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -73,20 +72,20 @@ object HollowEventHandler {
             val timePlayed = sp.statFile.readStat(StatList.PLAY_ONE_MINUTE)
             if (timePlayed == 0) {
                 SpawnHelper.teleportToDim(sp, DimensionType.NETHER.id)
-                if (player.dimension == DimensionType.NETHER.id) {
-                    val serverLevel = sp.serverWorld
-                    val pos = pos(sp.posX, sp.posY, sp.posZ)
-                    //buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
-
-                    val uuid = sp.uniqueID
-
-                    serverLevel.minecraftServer?.let {
-                        val p = it.playerList.players.filter { u -> u.uniqueID == uuid }[0]
-                        p.setSpawnPoint(pos, false)
-                        p.setSpawnDimension(DimensionType.NETHER.id)
-                        p.setSpawnChunk(pos, false, DimensionType.NETHER.id)
-                    }
-                }
+//                if (player.dimension == DimensionType.NETHER.id) {
+//                    val serverLevel = sp.serverWorld
+//                    val pos = pos(sp.posX, sp.posY, sp.posZ)
+//                    //buildSafeCube(serverLevel, sp.posX, sp.posY, sp.posZ)
+//
+//                    val uuid = sp.uniqueID
+//
+//                    serverLevel.minecraftServer?.let {
+//                        val p = it.playerList.players.filter { u -> u.uniqueID == uuid }[0]
+//                        p.setSpawnPoint(pos, false)
+//                        p.setSpawnDimension(DimensionType.NETHER.id)
+//                        p.setSpawnChunk(pos, false, DimensionType.NETHER.id)
+//                    }
+//                }
             }
         }
     }
@@ -96,14 +95,26 @@ object HollowEventHandler {
     fun onPlayerRespawn(e: PlayerRespawnEvent) {
         val player = e.player
 
-        if (player is EntityPlayerMP) {
-            val bedPos = player.bedLocation
-            if (bedPos != null) MasterTech.LOGGER.info("Bed location for player ${player.name} at X:${bedPos.x} Y:${bedPos.y} Z:${bedPos.z}")
-
-            if (bedPos == null || player.isSpawnForced) {
-                MasterTech.LOGGER.info("Bed location is null.")
-                if (player.dimension != DimensionType.NETHER.id)
+        if (player.dimension != DimensionType.NETHER.id) {
+            // Fuck MC 1.12.2.
+            // Mojang and Lex, I hate you!
+            // Fuck you.
+            // TODO(Fix respawn)
+            if (!player.hasSpawnDimension() || player.bedLocation == null) {
+                if (player is EntityPlayerMP) {
                     SpawnHelper.teleportToDim(player, DimensionType.NETHER.id)
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @SubscribeEvent
+    fun onBedSleep(e: PlayerSleepInBedEvent) {
+        val player = e.entityPlayer
+        if (player is EntityPlayerMP) {
+            if (!player.hasSpawnDimension()) {
+                player.setSpawnDimension(player.dimension)
             }
         }
     }
@@ -131,7 +142,6 @@ object HollowEventHandler {
         for (dx in -2 .. 2) {
             for (dy in -2 .. 2) {
                 for (dz in -2 .. 2) {
-                    if (dy == 0 && (dx == 0 || dz == 0)) continue
                     positions.add(pos(baseX + dx, baseY + dy, baseZ + dz))
                 }
             }
